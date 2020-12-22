@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::ModelBiasJobDefinition",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.modelbiasjobdefinition.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.modelbiasjobdefinition.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "modelbiasjobdefinition"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
