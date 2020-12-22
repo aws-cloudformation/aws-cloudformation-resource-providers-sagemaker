@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::ModelPackageGroup",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.modelpackagegroup.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.modelpackagegroup.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "modelpackagegroup"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
