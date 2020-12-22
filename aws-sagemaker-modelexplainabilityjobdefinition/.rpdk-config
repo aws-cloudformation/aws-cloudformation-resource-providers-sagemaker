@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::ModelExplainabilityJobDefinition",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.modelexplainabilityjobdefinition.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.modelexplainabilityjobdefinition.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "modelexplainabilityjobdefinition"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
