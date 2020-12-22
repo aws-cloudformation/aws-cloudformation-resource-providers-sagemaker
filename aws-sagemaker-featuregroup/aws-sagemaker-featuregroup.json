@@ -198,6 +198,7 @@
       "permissions": [
         "iam:PassRole",
         "kms:CreateGrant",
+        "kms:DescribeKey",
         "glue:CreateTable",
         "glue:GetTable",
         "glue:CreateDatabase",
