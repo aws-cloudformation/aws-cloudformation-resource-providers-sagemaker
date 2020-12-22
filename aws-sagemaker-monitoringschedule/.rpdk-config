@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::MonitoringSchedule",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.monitoringschedule.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.monitoringschedule.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "monitoringschedule"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
