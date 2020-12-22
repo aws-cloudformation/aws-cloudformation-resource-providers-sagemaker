@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::DataQualityJobDefinition",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.dataqualityjobdefinition.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.dataqualityjobdefinition.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "dataqualityjobdefinition"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
