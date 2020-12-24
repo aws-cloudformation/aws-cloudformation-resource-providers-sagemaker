@@ -5,6 +5,7 @@ import software.amazon.awssdk.services.sagemaker.SageMakerClient;
 import software.amazon.awssdk.services.sagemaker.model.DescribeProjectRequest;
 import software.amazon.awssdk.services.sagemaker.model.DescribeProjectResponse;
 import software.amazon.awssdk.services.sagemaker.model.ListTagsResponse;
+import software.amazon.awssdk.services.sagemaker.model.ProjectStatus;
 import software.amazon.awssdk.services.sagemaker.model.ResourceNotFoundException;
 import software.amazon.cloudformation.Action;
 import software.amazon.cloudformation.exceptions.CfnNotFoundException;
@@ -51,6 +52,9 @@ public class ReadHandler extends BaseHandlerStd {
         DescribeProjectResponse response = null;
         try {
             response = proxyClient.injectCredentialsAndInvokeV2(describeProjectRequest, proxyClient.client()::describeProject);
+            if (response.projectStatus().equals(ProjectStatus.DELETE_COMPLETED)) {
+                throw new CfnNotFoundException(ResourceModel.TYPE_NAME, describeProjectRequest.projectName());
+            }
         } catch (final ResourceNotFoundException e) {
             throw new CfnNotFoundException(ResourceModel.TYPE_NAME, describeProjectRequest.projectName(), e);
         } catch (final AwsServiceException e) {

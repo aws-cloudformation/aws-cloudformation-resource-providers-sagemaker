@@ -9,6 +9,7 @@ import software.amazon.awssdk.services.sagemaker.model.DescribeProjectResponse;
 import software.amazon.awssdk.services.sagemaker.model.ListProjectsRequest;
 import software.amazon.awssdk.services.sagemaker.model.ListProjectsResponse;
 import software.amazon.awssdk.services.sagemaker.model.ListTagsRequest;
+import software.amazon.awssdk.services.sagemaker.model.ProjectStatus;
 import software.amazon.awssdk.services.sagemaker.model.Tag;
 import software.amazon.cloudformation.exceptions.CfnInvalidRequestException;
 
@@ -18,6 +19,8 @@ import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+
+import static org.apache.commons.collections4.CollectionUtils.isNotEmpty;
 
 public class Translator {
 
@@ -97,7 +100,8 @@ public class Translator {
 
     private static List<ProvisioningParameter> translateFrom(
             List<software.amazon.awssdk.services.sagemaker.model.ProvisioningParameter> provisioningParameters) {
-        return provisioningParameters != null ? provisioningParameters.stream()
+        return provisioningParameters != null && isNotEmpty(provisioningParameters) ?
+                provisioningParameters.stream()
                 .map(e -> ProvisioningParameter.builder()
                         .key(e.key())
                         .value(e.value())
@@ -141,8 +145,12 @@ public class Translator {
                         .creationTime(summary.creationTime().toString())
                         .projectArn(summary.projectArn())
                         .projectName(summary.projectName())
+                        .projectStatus(summary.projectStatus().toString())
                         .projectDescription(summary.projectDescription())
                         .build())
+                .filter(summary -> {
+                    return false == summary.getProjectStatus().equals(ProjectStatus.DELETE_COMPLETED.toString());
+                })
                 .collect(Collectors.toList());
 
     }
@@ -175,7 +183,7 @@ public class Translator {
      */
     static List<software.amazon.awssdk.services.sagemaker.model.ProvisioningParameter> translate(
             final List<ProvisioningParameter> input) {
-        return input != null ? input.stream()
+        return input != null && isNotEmpty(input) ? input.stream()
                 .map(e -> software.amazon.awssdk.services.sagemaker.model.ProvisioningParameter.builder()
                         .key(e.getKey())
                         .value(e.getValue())

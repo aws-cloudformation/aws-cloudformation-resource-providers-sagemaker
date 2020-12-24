@@ -78,7 +78,7 @@ public class ListHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .projectArn(TEST_PROJECT_ARN)
                 .projectName(TEST_PROJECT_NAME)
-//                .projectStatus(ProjectStatus.CREATE_COMPLETED.toString())
+                .projectStatus(ProjectStatus.CREATE_COMPLETED.toString())
                 .build();
 
         List<ResourceModel> expectedModels = new ArrayList<ResourceModel>();

@@ -61,7 +61,7 @@ public class DeleteHandler extends BaseHandlerStd {
 
         } catch (final ResourceNotFoundException e) {
         } catch (final SageMakerException e) {
-            if (StringUtils.isBlank(e.getMessage()) || false == e.getMessage().matches(".*Project .* does not exist.*")) {
+            if (false == isExceptionFromDeletedProject(e)) {
                 throw e;
             }
         }
@@ -88,6 +88,9 @@ public class DeleteHandler extends BaseHandlerStd {
             // This is to handle out of stack resource deletion
             throw new CfnNotFoundException(ResourceModel.TYPE_NAME, deleteProjectRequest.projectName());
         }  catch (final AwsServiceException e) {
+            if (isExceptionFromDeletedProject(e)) {
+                throw new CfnNotFoundException(ResourceModel.TYPE_NAME, deleteProjectRequest.projectName());
+            }
             ExceptionMapper.throwCfnException(Action.DELETE.toString(), ResourceModel.TYPE_NAME, deleteProjectRequest.projectName(), e);
         }
 
@@ -117,6 +120,7 @@ public class DeleteHandler extends BaseHandlerStd {
 
             switch (projectStatus) {
                 case DELETE_IN_PROGRESS:
+                case PENDING:
                     logger.log(String.format("%s with name [%s] is stabilizing while delete.", ResourceModel.TYPE_NAME, model.getProjectName()));
                     return false;
                 //Delete failure case
@@ -130,11 +134,20 @@ public class DeleteHandler extends BaseHandlerStd {
         } catch (final ResourceNotFoundException e) {
             return true;
         } catch (final SageMakerException e) {
-            if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage().matches(".*Project .* does not exist.*")) {
+            if (isExceptionFromDeletedProject(e)) {
                 return true;
             }
             throw e;
         }
+    }
+
+    private boolean isExceptionFromDeletedProject(final AwsServiceException e) {
+        if (StringUtils.isNotBlank(e.getMessage())
+                && (e.getMessage().matches(".*Project .* does not exist.*")
+                || e.getMessage().matches(".*Project.*in DeleteCompleted status.*"))) {
+            return true;
+        }
+        return false;
     }
 
 }
