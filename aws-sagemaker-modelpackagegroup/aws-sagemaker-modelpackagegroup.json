@@ -21,7 +21,7 @@
             "$ref" : "#/definitions/ModelPackageGroupDescription"
         },
         "ModelPackageGroupPolicy": {
-            "type": "object"
+            "type": ["object", "string"]
         },
         "CreationTime": {
             "description": "The time at which the model package group was created.",
@@ -86,6 +86,15 @@
     ],
     "primaryIdentifier": [
         "/properties/ModelPackageGroupArn"
+    ],
+    "readOnlyProperties": [
+        "/properties/ModelPackageGroupArn",
+        "/properties/CreationTime",
+        "/properties/ModelPackageGroupStatus"
+    ],
+    "createOnlyProperties": [
+        "/properties/ModelPackageGroupName",
+        "/properties/ModelPackageGroupDescription"
     ],
     "handlers": {
         "create": {

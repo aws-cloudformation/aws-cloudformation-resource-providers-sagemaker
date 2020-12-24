@@ -31,7 +31,10 @@ Resources:
                 - "sagemaker:ListProjects"
                 - "sagemaker:ListTags"
                 - "servicecatalog:DescribeProduct"
+                - "servicecatalog:DescribeProvisionedProduct"
                 - "servicecatalog:DescribeProvisioningArtifact"
+                - "servicecatalog:ProvisionProduct"
+                - "servicecatalog:TerminateProvisionedProduct"
                 Resource: "*"
 Outputs:
   ExecutionRoleArn:

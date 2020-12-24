@@ -24,6 +24,7 @@
       "maxLength": 3072
     },
     "PipelineDefinition": {
+      "type": "object",
       "oneOf": [
         {
           "additionalProperties": false,
@@ -64,6 +65,7 @@
   "definitions": {
     "S3Location": {
       "type": "object",
+      "additionalProperties": false,
       "properties": {
         "Bucket": {
           "description": "The name of the S3 bucket where the PipelineDefinition file is stored.",
@@ -81,7 +83,8 @@
           "description": "The Amazon S3 ETag (a file checksum) of the PipelineDefinition file. If you don't specify a value, SageMaker skips ETag validation of your PipelineDefinition file.",
           "type": "string"
         }
-      }
+      },
+      "required": ["Bucket", "Key"]
     },
     "Tag": {
       "type": "object",
@@ -97,7 +100,7 @@
       "required": ["Value", "Key"]
     }
   },
-  "required": ["PipelineName", "RoleArn"],
+  "required": ["PipelineName", "PipelineDefinition", "RoleArn"],
   "createOnlyProperties": ["/properties/PipelineName"],
   "primaryIdentifier": ["/properties/PipelineName"],
   "handlers": {
