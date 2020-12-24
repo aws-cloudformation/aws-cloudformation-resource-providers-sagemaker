@@ -73,7 +73,7 @@ public class CreateHandlerTest extends AbstractTestBase {
             .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
             .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
             .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-            .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+            .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
             .build();
 
     private final ResourceModel requestModelWithTagsAndResourcePolicy = ResourceModel.builder()
@@ -81,7 +81,7 @@ public class CreateHandlerTest extends AbstractTestBase {
             .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
             .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
             .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-            .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+            .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
             .build();
 
     @BeforeEach
@@ -238,7 +238,7 @@ public class CreateHandlerTest extends AbstractTestBase {
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .build();
 
         assertNotNull(response);
@@ -291,7 +291,7 @@ public class CreateHandlerTest extends AbstractTestBase {
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .tags(TEST_CFN_MODEL_TAGS)
                 .build();
 

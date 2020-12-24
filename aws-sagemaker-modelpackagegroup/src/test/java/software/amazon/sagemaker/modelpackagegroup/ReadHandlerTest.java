@@ -87,7 +87,7 @@ public class ReadHandlerTest extends AbstractTestBase {
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .tags(TEST_CFN_MODEL_TAGS)
                 .build();
 
@@ -136,7 +136,7 @@ public class ReadHandlerTest extends AbstractTestBase {
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()

@@ -29,7 +29,6 @@ public class AbstractTestBase {
     protected static final String MODEL_PACKAGE_GROUP_NOT_EXISTS_ERROR_MESSAGE = "ModelPackageGroup sample_arn does not exist.";
     protected static final String CANNOT_FIND_MODEL_PACKAGE_GROUP_ERROR_MESSAGE = "Cannot find Model Package Group: sample_arn";
     protected static final String CANNOT_FIND_MODEL_PACKAGE_GROUP_POLICY_ERROR_MESSAGE = "Cannot find resource policy for: sample_arn";
-    protected static Map<String, Object> TEST_MODEL_PACKAGE_GROUP_POLICY;
     protected static final String TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT = "{\"policy\": \"test model package group policy\"}";
     protected static final List<Tag> TEST_SDK_TAGS = ImmutableList.of(Tag.builder().key("key1").value("value1").build());
     protected static final List<software.amazon.sagemaker.modelpackagegroup.Tag> TEST_CFN_MODEL_TAGS
@@ -41,11 +40,6 @@ public class AbstractTestBase {
     static {
         MOCK_CREDENTIALS = new Credentials("accessKey", "secretKey", "token");
         logger = new LoggerProxy();
-        TEST_MODEL_PACKAGE_GROUP_POLICY = getTestPolicy();
-    }
-
-    static Map<String, Object> getTestPolicy() {
-         return new JSONObject(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT).toMap();
     }
 
     static ProxyClient<SageMakerClient> MOCK_PROXY(

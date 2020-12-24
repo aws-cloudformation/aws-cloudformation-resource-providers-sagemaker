@@ -104,7 +104,7 @@ class UpdateHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
                 .build();
 
@@ -167,7 +167,7 @@ class UpdateHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
                 .tags(TEST_CFN_MODEL_TAGS)
                 .build();
@@ -231,7 +231,7 @@ class UpdateHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
                 .build();
 
@@ -513,7 +513,7 @@ class UpdateHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
                 .build();
     }
@@ -523,7 +523,7 @@ class UpdateHandlerTest extends AbstractTestBase {
                 .creationTime(TEST_CREATION_TIME.toString())
                 .modelPackageGroupName(TEST_MODEL_PACKAGE_GROUP_NAME)
                 .modelPackageGroupArn(TEST_MODEL_PACKAGE_GROUP_ARN)
-                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY)
+                .modelPackageGroupPolicy(TEST_MODEL_PACKAGE_GROUP_POLICY_TEXT)
                 .tags(TEST_CFN_MODEL_TAGS)
                 .modelPackageGroupStatus(ModelPackageGroupStatus.COMPLETED.toString())
                 .build();

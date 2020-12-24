@@ -67,7 +67,13 @@ public class Translator {
     static PutModelPackageGroupPolicyRequest translateToPutModelPackageGroupPolicyRequest(final ResourceModel model) {
         PutModelPackageGroupPolicyRequest putModelPackageGroupPolicyRequest;
         try {
-            String policy = MAPPER.writeValueAsString(model.getModelPackageGroupPolicy());
+            String policy;
+            if (model.getModelPackageGroupPolicy() instanceof String) {
+                policy = model.getModelPackageGroupPolicy().toString();
+            }
+            else {
+                policy = MAPPER.writeValueAsString(model.getModelPackageGroupPolicy());
+            }
             putModelPackageGroupPolicyRequest = PutModelPackageGroupPolicyRequest.builder()
                     .modelPackageGroupName(model.getModelPackageGroupName())
                     .resourcePolicy(policy)
@@ -107,7 +113,8 @@ public class Translator {
      */
     static DescribeModelPackageGroupRequest translateToReadRequest(final ResourceModel model) {
         return DescribeModelPackageGroupRequest.builder()
-                .modelPackageGroupName(model.getModelPackageGroupName()).build();
+                .modelPackageGroupName(model.getModelPackageGroupName() != null
+                        ? model.getModelPackageGroupName() : model.getModelPackageGroupArn()).build();
     }
 
     /**

@@ -1,7 +1,6 @@
 package software.amazon.sagemaker.modelpackagegroup;
 
 import org.apache.commons.lang3.StringUtils;
-import org.json.JSONObject;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.services.sagemaker.SageMakerClient;
 import software.amazon.awssdk.services.sagemaker.model.DescribeModelPackageGroupResponse;
@@ -84,8 +83,7 @@ public class ReadHandler extends BaseHandlerStd {
             GetModelPackageGroupPolicyResponse response = proxyClient.injectCredentialsAndInvokeV2(
                     Translator.translateToGetModelPackageGroupPolicyRequest(model), proxyClient.client()::getModelPackageGroupPolicy);
             if (response.resourcePolicy() != null) {
-                JSONObject policyObject = new JSONObject(response.resourcePolicy());
-                model.setModelPackageGroupPolicy(policyObject.toMap());
+                model.setModelPackageGroupPolicy(response.resourcePolicy());
             }
         } catch (AwsServiceException e) {
             if (StringUtils.isNotBlank(e.getMessage()) && e.getMessage().matches(".*Cannot find resource policy.*")) {
