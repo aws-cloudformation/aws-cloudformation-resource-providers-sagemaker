@@ -196,7 +196,10 @@
                 "sagemaker:CreateProject",
                 "sagemaker:DescribeProject",
                 "servicecatalog:DescribeProduct",
-                "servicecatalog:DescribeProvisioningArtifact"
+                "servicecatalog:DescribeProvisioningArtifact",
+                "servicecatalog:ProvisionProduct",
+                "servicecatalog:DescribeProvisionedProduct",
+                "servicecatalog:TerminateProvisionedProduct"
             ]
         },
         "read": {
