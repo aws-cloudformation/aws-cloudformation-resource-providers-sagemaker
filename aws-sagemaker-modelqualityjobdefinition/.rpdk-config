@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::ModelQualityJobDefinition",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.modelqualityjobdefinition.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.modelqualityjobdefinition.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "modelqualityjobdefinition"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}

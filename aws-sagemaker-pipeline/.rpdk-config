@@ -1,0 +1,16 @@
+{
+    "typeName": "AWS::SageMaker::Pipeline",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.pipeline.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.pipeline.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "pipeline"
+        ],
+        "protocolVersion": "2.0.0"
+    }
+}
