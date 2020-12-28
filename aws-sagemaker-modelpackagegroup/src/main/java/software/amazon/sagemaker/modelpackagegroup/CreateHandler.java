@@ -86,7 +86,7 @@ public class CreateHandler extends BaseHandlerStd {
     }
 
     /**
-     * This is used to ensure model package group resource has moved from Pending to Scheduled/Failed state.
+     * This is used to ensure model package group resource has moved from Pending to Completed/Failed state.
      * @param createModelPackageGroupRequest the aws service request to create a model package group
      * @param createModelPackageGroupResponse the aws service response on creating a model package group
      * @param proxyClient the aws service client to make the call
