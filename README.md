@@ -1,11 +1,20 @@
-## My Project
+## Cloud Formation Resource Provider Package for SageMaker
 
-TODO: Fill this README out!
+Amazon SageMaker helps data scientists and developers to prepare, build, train, and deploy high-quality machine learning (ML) models quickly by bringing together a broad set of capabilities purpose-built for ML.
 
-Be sure to:
+This repository contains code to manage the following SageMaker resource providers:
 
-* Change the title in this README
-* Edit your repository description on GitHub
+
+- AWS::SageMaker::Pipeline
+- AWS::SageMaker::FeatureGroup
+- AWS::SageMaker::Project
+- AWS::SageMaker::ModelPackageGroup
+- AWS::SageMaker::ModelExplainabilityJobDefinition
+- AWS::SageMaker::ModelBiasJobDefinition
+- AWS::SageMaker::DataQualityJobDefinition
+- AWS::SageMaker::ModelQualityJobDefinition
+- AWS::SageMaker::MonitoringSchedule
+
 
 ## Security
 
