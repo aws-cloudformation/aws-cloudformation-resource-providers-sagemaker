@@ -376,8 +376,8 @@
         "VolumeKmsKeyId": {
           "description" : "The AWS Key Management Service (AWS KMS) key that Amazon SageMaker uses to encrypt data on the storage volume attached to the ML compute instance(s) that run the model monitoring job.",
           "type" : "string",
-          "minimum" : 1,
-          "maximum" : 2048
+          "minLength" : 1,
+          "maxLength" : 2048
         },
         "VolumeSizeInGB": {
           "description" : "The size of the ML storage volume, in gigabytes, that you want to provision. You must specify sufficient ML storage for your scenario.",
