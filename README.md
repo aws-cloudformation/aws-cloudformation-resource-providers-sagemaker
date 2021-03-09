@@ -14,6 +14,8 @@ This repository contains code to manage the following SageMaker resource provide
 - AWS::SageMaker::DataQualityJobDefinition
 - AWS::SageMaker::ModelQualityJobDefinition
 - AWS::SageMaker::MonitoringSchedule
+- AWS::SageMaker::Image
+- AWS::SageMaker::ImageVersion
 
 
 ## Security
