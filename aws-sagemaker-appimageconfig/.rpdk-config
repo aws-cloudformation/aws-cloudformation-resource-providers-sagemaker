@@ -1,0 +1,17 @@
+{
+    "typeName": "AWS::SageMaker::AppImageConfig",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.appimageconfig.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.appimageconfig.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "appimageconfig"
+        ],
+        "codegen_template_path": "default",
+        "protocolVersion": "2.0.0"
+    }
+}
