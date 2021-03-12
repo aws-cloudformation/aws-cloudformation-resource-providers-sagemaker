@@ -1,0 +1,17 @@
+{
+    "typeName": "AWS::SageMaker::App",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.app.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.app.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "app"
+        ],
+        "codegen_template_path": "default",
+        "protocolVersion": "2.0.0"
+    }
+}

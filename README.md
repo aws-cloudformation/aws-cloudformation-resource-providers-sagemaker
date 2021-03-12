@@ -16,6 +16,10 @@ This repository contains code to manage the following SageMaker resource provide
 - AWS::SageMaker::MonitoringSchedule
 - AWS::SageMaker::Image
 - AWS::SageMaker::ImageVersion
+- AWS::SageMaker::Domain
+- AWS::SageMaker::UserProfile
+- AWS::SageMaker::App
+- AWS::SageMaker::AppImageConfig
 
 
 ## Security
