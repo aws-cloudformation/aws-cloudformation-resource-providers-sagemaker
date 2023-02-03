@@ -1,4 +1,4 @@
-package software.amazon.sagemaker.domain;
+package software.amazon.sagemaker.space;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -8,17 +8,14 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.services.sagemaker.SageMakerClient;
 import software.amazon.awssdk.services.sagemaker.model.CustomImage;
-import software.amazon.awssdk.services.sagemaker.model.DefaultSpaceSettings;
-import software.amazon.awssdk.services.sagemaker.model.DescribeDomainRequest;
-import software.amazon.awssdk.services.sagemaker.model.DescribeDomainResponse;
+import software.amazon.awssdk.services.sagemaker.model.DescribeSpaceRequest;
+import software.amazon.awssdk.services.sagemaker.model.DescribeSpaceResponse;
 import software.amazon.awssdk.services.sagemaker.model.JupyterServerAppSettings;
 import software.amazon.awssdk.services.sagemaker.model.KernelGatewayAppSettings;
-import software.amazon.awssdk.services.sagemaker.model.ListDomainsRequest;
 import software.amazon.awssdk.services.sagemaker.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.sagemaker.model.ResourceSpec;
 import software.amazon.awssdk.services.sagemaker.model.SageMakerException;
-import software.amazon.awssdk.services.sagemaker.model.SharingSettings;
-import software.amazon.awssdk.services.sagemaker.model.UserSettings;
+import software.amazon.awssdk.services.sagemaker.model.SpaceSettings;
 import software.amazon.cloudformation.Action;
 import software.amazon.cloudformation.exceptions.CfnGeneralServiceException;
 import software.amazon.cloudformation.exceptions.CfnNotFoundException;
@@ -40,7 +37,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
 @ExtendWith(MockitoExtension.class)
-public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTestBase {
+public class ReadHandlerTest extends software.amazon.sagemaker.space.AbstractTestBase {
 
     @Mock
     private AmazonWebServicesClientProxy proxy;
@@ -60,13 +57,8 @@ public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTe
 
     @Test
     public void testReadHandler_SimpleSuccess() {
-        final SharingSettings sharingSettings = SharingSettings.builder()
-                .notebookOutputOption(TEST_NB_OUTPUT)
-                .s3KmsKeyId(TEST_S3_KMS)
-                .s3OutputPath(TEST_S3_OUTPUT)
-                .build();
 
-        final CustomImage customImage = CustomImage.builder()
+        final software.amazon.awssdk.services.sagemaker.model.CustomImage customImage = CustomImage.builder()
                 .imageName(TEST_IMAGE_NAME)
                 .imageVersionNumber(TEST_IMAGE_VERSION_NUMBER)
                 .appImageConfigName(TEST_APP_IMAGE_CONFIG_NAME)
@@ -87,102 +79,65 @@ public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTe
                 .defaultResourceSpec(resourceSpec)
                 .build();
 
-        final UserSettings userSettings = UserSettings.builder()
-                .sharingSettings(sharingSettings)
-                .securityGroups(TEST_SECURITY_GROUP)
-                .executionRole(TEST_ROLE)
+        final SpaceSettings spaceSettings = SpaceSettings.builder()
                 .kernelGatewayAppSettings(kernelGatewayAppSettings)
                 .jupyterServerAppSettings(jupyterServerAppSettings)
                 .build();
 
-        final DefaultSpaceSettings defaultspaceSettings = DefaultSpaceSettings.builder()
-                .securityGroups(Collections.singletonList(TEST_SECURITY_GROUP))
-                .executionRole(TEST_ROLE)
-                .kernelGatewayAppSettings(kernelGatewayAppSettings)
-                .jupyterServerAppSettings(jupyterServerAppSettings)
-                .build();
-
-        final DescribeDomainResponse describeResponse = DescribeDomainResponse.builder()
-                .domainArn(TEST_DOMAIN_ARN)
-                .domainName(TEST_DOMAIN_NAME)
+        final DescribeSpaceResponse describeResponse = DescribeSpaceResponse.builder()
+                .spaceArn(TEST_SPACE_ARN)
+                .spaceName(TEST_SPACE_NAME)
                 .domainId(TEST_DOMAIN_ID)
-                .appNetworkAccessType(TEST_APP_NETWORK_TYPE)
-                .authMode(TEST_AUTH_MODE)
-                .defaultUserSettings(userSettings)
-                .defaultSpaceSettings(defaultspaceSettings)
-                .homeEfsFileSystemId(TEST_EFS_ID)
-                .singleSignOnManagedApplicationInstanceId(TEST_SSO_MANAGED_APP)
-                .subnetIds(TEST_SUBNET_ID)
+                .spaceSettings(spaceSettings)
+                .creationTime(TEST_TIME)
+                .lastModifiedTime(TEST_TIME)
+                .failureReason(TEST_FAILURE_REASON)
                 .status(TEST_STATUS)
                 .build();
 
-        when(proxyClient.client().describeDomain(any(DescribeDomainRequest.class)))
+        when(proxyClient.client().describeSpace(any(DescribeSpaceRequest.class)))
                 .thenReturn(describeResponse);
 
-        final software.amazon.sagemaker.domain.ResourceSpec expectedResourceSpec =
-                software.amazon.sagemaker.domain.ResourceSpec.builder()
+        final software.amazon.sagemaker.space.ResourceSpec expectedResourceSpec =
+                software.amazon.sagemaker.space.ResourceSpec.builder()
                         .instanceType(TEST_INSTANCE_TYPE)
                         .sageMakerImageArn(TEST_IMAGE_ARN)
                         .sageMakerImageVersionArn(TEST_IMAGE_VERSION_ARN)
                         .build();
 
-        final software.amazon.sagemaker.domain.SharingSettings expectedSharingSettings =
-                software.amazon.sagemaker.domain.SharingSettings.builder()
-                        .notebookOutputOption(TEST_NB_OUTPUT)
-                        .s3KmsKeyId(TEST_S3_KMS)
-                        .s3OutputPath(TEST_S3_OUTPUT)
-                        .build();
-
-        final software.amazon.sagemaker.domain.CustomImage expectedCustomImage =
-                software.amazon.sagemaker.domain.CustomImage.builder()
+        final software.amazon.sagemaker.space.CustomImage expectedCustomImage =
+                software.amazon.sagemaker.space.CustomImage.builder()
                 .imageName(TEST_IMAGE_NAME)
                 .imageVersionNumber(TEST_IMAGE_VERSION_NUMBER)
                 .appImageConfigName(TEST_APP_IMAGE_CONFIG_NAME)
                 .build();
 
-        final software.amazon.sagemaker.domain.KernelGatewayAppSettings expectedKernelGatewayAppSettings =
-                software.amazon.sagemaker.domain.KernelGatewayAppSettings.builder()
+        final software.amazon.sagemaker.space.KernelGatewayAppSettings expectedKernelGatewayAppSettings =
+                software.amazon.sagemaker.space.KernelGatewayAppSettings.builder()
                 .customImages(Collections.singletonList(expectedCustomImage))
                 .defaultResourceSpec(expectedResourceSpec)
                 .build();
 
-        final software.amazon.sagemaker.domain.JupyterServerAppSettings expectedJupyterServerAppSettings =
-                software.amazon.sagemaker.domain.JupyterServerAppSettings.builder()
+        final software.amazon.sagemaker.space.JupyterServerAppSettings expectedJupyterServerAppSettings =
+                software.amazon.sagemaker.space.JupyterServerAppSettings.builder()
                 .defaultResourceSpec(expectedResourceSpec)
                 .build();
 
-        final software.amazon.sagemaker.domain.UserSettings expectedUserSettings =
-                software.amazon.sagemaker.domain.UserSettings.builder()
-                        .sharingSettings(expectedSharingSettings)
-                        .securityGroups(Collections.singletonList(TEST_SECURITY_GROUP))
-                        .executionRole(TEST_ROLE)
-                        .kernelGatewayAppSettings(expectedKernelGatewayAppSettings)
-                        .jupyterServerAppSettings(expectedJupyterServerAppSettings)
-                        .build();
-
-        final software.amazon.sagemaker.domain.DefaultSpaceSettings expectedDefaultSpaceSettings =
-                software.amazon.sagemaker.domain.DefaultSpaceSettings.builder()
-                        .securityGroups(Collections.singletonList(TEST_SECURITY_GROUP))
-                        .executionRole(TEST_ROLE)
+        final software.amazon.sagemaker.space.SpaceSettings expectedSpaceSettings =
+                software.amazon.sagemaker.space.SpaceSettings.builder()
                         .kernelGatewayAppSettings(expectedKernelGatewayAppSettings)
                         .jupyterServerAppSettings(expectedJupyterServerAppSettings)
                         .build();
 
         final ResourceModel expectedResourceModel = ResourceModel.builder()
-                .domainArn(TEST_DOMAIN_ARN)
-                .domainName(TEST_DOMAIN_NAME)
+                .spaceArn(TEST_SPACE_ARN)
+                .spaceName(TEST_SPACE_NAME)
                 .domainId(TEST_DOMAIN_ID)
-                .appNetworkAccessType(TEST_APP_NETWORK_TYPE)
-                .authMode(TEST_AUTH_MODE)
-                .defaultUserSettings(expectedUserSettings)
-                .defaultSpaceSettings(expectedDefaultSpaceSettings)
-                .subnetIds(Collections.singletonList(TEST_SUBNET_ID))
-                .homeEfsFileSystemId(TEST_EFS_ID)
-                .singleSignOnManagedApplicationInstanceId(TEST_SSO_MANAGED_APP)
+                .spaceSettings(expectedSpaceSettings)
                 .build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getPostCreationResourceModel())
+                .desiredResourceState(getRequestResourceModel())
                 .build();
         final ProgressEvent<ResourceModel, CallbackContext> response = invokeHandleRequest(request);
 
@@ -192,7 +147,7 @@ public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTe
         assertThat(response.getResourceModel()).isEqualTo(expectedResourceModel);
         assertThat(response.getMessage()).isNull();
         assertThat(response.getErrorCode()).isNull();
-        verify(proxyClient.client()).describeDomain(any(DescribeDomainRequest.class));
+        verify(proxyClient.client()).describeSpace(any(DescribeSpaceRequest.class));
     }
 
     @Test
@@ -202,11 +157,31 @@ public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTe
                 .statusCode(500)
                 .build();
 
-        when(proxyClient.client().describeDomain(any(DescribeDomainRequest.class)))
+        when(proxyClient.client().describeSpace(any(DescribeSpaceRequest.class)))
                 .thenThrow(serviceInternalException);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getPostCreationResourceModel())
+                .desiredResourceState(getRequestResourceModel())
+                .build();
+
+        Exception exception = assertThrows( CfnGeneralServiceException.class, () -> invokeHandleRequest(request));
+
+        assertThat(exception.getMessage()).isEqualTo(String.format(HandlerErrorCode.GeneralServiceException.getMessage(),
+                Action.READ));
+    }
+
+    @Test
+    public void testReadHandler_SpaceDoesNotExist_Fails() {
+        final AwsServiceException resourceNotFoundException = AwsServiceException.builder()
+                .message(TEST_ERROR_MESSAGE)
+                .statusCode(400)
+                .build();
+
+        when(proxyClient.client().describeSpace(any(DescribeSpaceRequest.class)))
+                .thenThrow(resourceNotFoundException);
+
+        final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
+                .desiredResourceState(getRequestResourceModel())
                 .build();
 
         Exception exception = assertThrows( CfnGeneralServiceException.class, () -> invokeHandleRequest(request));
@@ -217,17 +192,17 @@ public class ReadHandlerTest extends software.amazon.sagemaker.domain.AbstractTe
 
     @Test
     public void testReadHandler_ResourceNotFoundException() {
-        when(proxyClient.client().describeDomain(any(DescribeDomainRequest.class)))
+        when(proxyClient.client().describeSpace(any(DescribeSpaceRequest.class)))
                 .thenThrow(ResourceNotFoundException.class);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getPostCreationResourceModel())
+                .desiredResourceState(getRequestResourceModel())
                 .build();
 
         Exception exception = assertThrows(CfnNotFoundException.class, () -> invokeHandleRequest(request));
 
         assertThat(exception.getMessage()).isEqualTo(String.format(HandlerErrorCode.NotFound.getMessage(),
-                ResourceModel.TYPE_NAME, TEST_DOMAIN_ID));
+                ResourceModel.TYPE_NAME, TEST_SPACE_NAME));
     }
 
     private ProgressEvent<ResourceModel, CallbackContext> invokeHandleRequest(ResourceHandlerRequest<ResourceModel> request) {

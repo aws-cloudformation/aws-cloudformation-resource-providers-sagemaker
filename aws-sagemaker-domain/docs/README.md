@@ -15,11 +15,14 @@ To declare this entity in your AWS CloudFormation template, use the following sy
         "<a href="#appnetworkaccesstype" title="AppNetworkAccessType">AppNetworkAccessType</a>" : <i>String</i>,
         "<a href="#authmode" title="AuthMode">AuthMode</a>" : <i>String</i>,
         "<a href="#defaultusersettings" title="DefaultUserSettings">DefaultUserSettings</a>" : <i><a href="usersettings.md">UserSettings</a></i>,
+        "<a href="#defaultspacesettings" title="DefaultSpaceSettings">DefaultSpaceSettings</a>" : <i><a href="defaultspacesettings.md">DefaultSpaceSettings</a></i>,
         "<a href="#domainname" title="DomainName">DomainName</a>" : <i>String</i>,
         "<a href="#kmskeyid" title="KmsKeyId">KmsKeyId</a>" : <i>String</i>,
         "<a href="#subnetids" title="SubnetIds">SubnetIds</a>" : <i>[ String, ... ]</i>,
         "<a href="#tags" title="Tags">Tags</a>" : <i>[ <a href="tag.md">Tag</a>, ... ]</i>,
         "<a href="#vpcid" title="VpcId">VpcId</a>" : <i>String</i>,
+        "<a href="#domainsettings" title="DomainSettings">DomainSettings</a>" : <i><a href="domainsettings.md">DomainSettings</a></i>,
+        "<a href="#appsecuritygroupmanagement" title="AppSecurityGroupManagement">AppSecurityGroupManagement</a>" : <i>String</i>,
     }
 }
 </pre>
@@ -32,6 +35,7 @@ Properties:
     <a href="#appnetworkaccesstype" title="AppNetworkAccessType">AppNetworkAccessType</a>: <i>String</i>
     <a href="#authmode" title="AuthMode">AuthMode</a>: <i>String</i>
     <a href="#defaultusersettings" title="DefaultUserSettings">DefaultUserSettings</a>: <i><a href="usersettings.md">UserSettings</a></i>
+    <a href="#defaultspacesettings" title="DefaultSpaceSettings">DefaultSpaceSettings</a>: <i><a href="defaultspacesettings.md">DefaultSpaceSettings</a></i>
     <a href="#domainname" title="DomainName">DomainName</a>: <i>String</i>
     <a href="#kmskeyid" title="KmsKeyId">KmsKeyId</a>: <i>String</i>
     <a href="#subnetids" title="SubnetIds">SubnetIds</a>: <i>
@@ -39,6 +43,8 @@ Properties:
     <a href="#tags" title="Tags">Tags</a>: <i>
       - <a href="tag.md">Tag</a></i>
     <a href="#vpcid" title="VpcId">VpcId</a>: <i>String</i>
+    <a href="#domainsettings" title="DomainSettings">DomainSettings</a>: <i><a href="domainsettings.md">DomainSettings</a></i>
+    <a href="#appsecuritygroupmanagement" title="AppSecurityGroupManagement">AppSecurityGroupManagement</a>: <i>String</i>
 </pre>
 
 ## Properties
@@ -77,6 +83,16 @@ _Type_: <a href="usersettings.md">UserSettings</a>
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
+#### DefaultSpaceSettings
+
+A collection of settings that apply to spaces of Amazon SageMaker Studio. These settings are specified when the CreateDomain API is called.
+
+_Required_: No
+
+_Type_: <a href="defaultspacesettings.md">DefaultSpaceSettings</a>
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+
 #### DomainName
 
 A name for the domain.
@@ -85,7 +101,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>63</code>
+_Maximum Length_: <code>63</code>
 
 _Pattern_: <code>^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</code>
 
@@ -99,7 +115,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>2048</code>
+_Maximum Length_: <code>2048</code>
 
 _Pattern_: <code>.*</code>
 
@@ -133,11 +149,33 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>32</code>
+_Maximum Length_: <code>32</code>
 
 _Pattern_: <code>[-0-9a-zA-Z]+</code>
 
 _Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+
+#### DomainSettings
+
+A collection of Domain settings.
+
+_Required_: No
+
+_Type_: <a href="domainsettings.md">DomainSettings</a>
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
+
+#### AppSecurityGroupManagement
+
+The entity that creates and manages the required security groups for inter-app communication in VPCOnly mode. Required when CreateDomain.AppNetworkAccessType is VPCOnly and DomainSettings.RStudioServerProDomainSettings.DomainExecutionRoleArn is provided.
+
+_Required_: No
+
+_Type_: String
+
+_Allowed Values_: <code>Service</code> | <code>Customer</code>
+
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 ## Return Values
 
@@ -166,6 +204,10 @@ The domain name.
 #### HomeEfsFileSystemId
 
 The ID of the Amazon Elastic File System (EFS) managed by this Domain.
+
+#### SecurityGroupIdForDomainBoundary
+
+The ID of the security group that authorizes traffic between the RSessionGateway apps and the RStudioServerPro app.
 
 #### SingleSignOnManagedApplicationInstanceId
 

@@ -21,7 +21,7 @@ Resources:
                   Ref: AWS::AccountId
               StringLike:
                 aws:SourceArn:
-                  Fn::Sub: arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/resource/AWS-SageMaker-Domain/*
+                  Fn::Sub: arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/resource/AWS-SageMaker-Space/*
       Path: "/"
       Policies:
         - PolicyName: ResourceTypePolicy
@@ -30,22 +30,11 @@ Resources:
             Statement:
               - Effect: Allow
                 Action:
-                - "efs:CreateFileSystem"
-                - "iam:CreateServiceLinkedRole"
-                - "iam:PassRole"
-                - "kms:CreateGrant"
-                - "kms:Decrypt"
-                - "kms:DescribeKey"
-                - "kms:GenerateDataKeyWithoutPlainText"
-                - "sagemaker:CreateApp"
-                - "sagemaker:CreateDomain"
-                - "sagemaker:DeleteApp"
-                - "sagemaker:DeleteDomain"
-                - "sagemaker:DescribeDomain"
-                - "sagemaker:DescribeImage"
-                - "sagemaker:DescribeImageVersion"
-                - "sagemaker:ListDomains"
-                - "sagemaker:UpdateDomain"
+                - "sagemaker:CreateSpace"
+                - "sagemaker:DeleteSpace"
+                - "sagemaker:DescribeSpace"
+                - "sagemaker:ListSpaces"
+                - "sagemaker:UpdateSpace"
                 Resource: "*"
 Outputs:
   ExecutionRoleArn:
