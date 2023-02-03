@@ -1,0 +1,19 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::SageMaker::Space",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.space.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.space.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "space"
+        ],
+        "codegen_template_path": "default",
+        "protocolVersion": "2.0.0"
+    },
+    "executableEntrypoint": "software.amazon.sagemaker.space.HandlerWrapperExecutable"
+}

@@ -24,6 +24,7 @@ public class TranslatorForResponse {
                 .appNetworkAccessType(awsResponse.appNetworkAccessTypeAsString())
                 .authMode(awsResponse.authModeAsString())
                 .defaultUserSettings(translateUserSettings(awsResponse.defaultUserSettings()))
+                .defaultSpaceSettings(translateDefaultSpaceSettings(awsResponse.defaultSpaceSettings()))
                 .domainName(awsResponse.domainName())
                 .kmsKeyId(awsResponse.kmsKeyId())
                 .subnetIds(awsResponse.subnetIds())
@@ -31,6 +32,9 @@ public class TranslatorForResponse {
                 .domainId(awsResponse.domainId())
                 .homeEfsFileSystemId(awsResponse.homeEfsFileSystemId())
                 .singleSignOnManagedApplicationInstanceId(awsResponse.singleSignOnManagedApplicationInstanceId())
+                .domainSettings(TranslatorForResponse.translateDomainSettings(awsResponse.domainSettings()))
+                .appSecurityGroupManagement(awsResponse.appSecurityGroupManagementAsString())
+                .securityGroupIdForDomainBoundary(awsResponse.securityGroupIdForDomainBoundary())
                 .build();
     }
 
@@ -60,6 +64,20 @@ public class TranslatorForResponse {
                 .kernelGatewayAppSettings(translateKernelGatewayAppSettings(origin.kernelGatewayAppSettings()))
                 .securityGroups(origin.hasSecurityGroups() ? origin.securityGroups() : null)
                 .sharingSettings(translateSharingSettings(origin.sharingSettings()))
+                .build();
+    }
+
+    private static DefaultSpaceSettings translateDefaultSpaceSettings(
+            software.amazon.awssdk.services.sagemaker.model.DefaultSpaceSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return DefaultSpaceSettings.builder()
+                .executionRole(origin.executionRole())
+                .jupyterServerAppSettings(translateJupyterServerAppSettings(origin.jupyterServerAppSettings()))
+                .kernelGatewayAppSettings(translateKernelGatewayAppSettings(origin.kernelGatewayAppSettings()))
+                .securityGroups(origin.hasSecurityGroups() ? origin.securityGroups() : null)
                 .build();
     }
 
@@ -95,6 +113,7 @@ public class TranslatorForResponse {
                 .instanceType(origin.instanceTypeAsString())
                 .sageMakerImageArn(origin.sageMakerImageArn())
                 .sageMakerImageVersionArn(origin.sageMakerImageVersionArn())
+                .lifecycleConfigArn(origin.lifecycleConfigArn())
                 .build();
     }
 
@@ -123,6 +142,31 @@ public class TranslatorForResponse {
                 .notebookOutputOption(origin.notebookOutputOptionAsString())
                 .s3KmsKeyId(origin.s3KmsKeyId())
                 .s3OutputPath(origin.s3OutputPath())
+                .build();
+    }
+
+    private static DomainSettings translateDomainSettings(software.amazon.awssdk.services.sagemaker.model.DomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return DomainSettings.builder()
+                .securityGroupIds(origin.securityGroupIds())
+                .rStudioServerProDomainSettings(TranslatorForResponse.translateRStudioServerProDomainSettings(origin.rStudioServerProDomainSettings()))
+                .build();
+    }
+
+    private static RStudioServerProDomainSettings translateRStudioServerProDomainSettings(
+            software.amazon.awssdk.services.sagemaker.model.RStudioServerProDomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return RStudioServerProDomainSettings.builder()
+                .domainExecutionRoleArn(origin.domainExecutionRoleArn())
+                .rStudioConnectUrl(origin.rStudioConnectUrl())
+                .rStudioPackageManagerUrl(origin.rStudioPackageManagerUrl())
+                .defaultResourceSpec(TranslatorForResponse.translateResourceSpec(origin.defaultResourceSpec()))
                 .build();
     }
 }

@@ -25,6 +25,7 @@ final class TranslatorForRequest {
                 .appNetworkAccessType(model.getAppNetworkAccessType())
                 .authMode(model.getAuthMode())
                 .defaultUserSettings(translateUserSettings(model.getDefaultUserSettings()))
+                .defaultSpaceSettings(translateDefaultSpaceSettings(model.getDefaultSpaceSettings()))
                 .domainName(model.getDomainName())
                 .kmsKeyId(model.getKmsKeyId())
                 .subnetIds(model.getSubnetIds())
@@ -35,6 +36,8 @@ final class TranslatorForRequest {
                                 .value(t.getValue())
                                 .build())
                         .collect(Collectors.toList()))
+                .domainSettings(TranslatorForRequest.translateDomainSettings(model.getDomainSettings()))
+                .appSecurityGroupManagement(model.getAppSecurityGroupManagement())
                 .build();
     }
 
@@ -71,6 +74,9 @@ final class TranslatorForRequest {
         return UpdateDomainRequest.builder()
                 .domainId(model.getDomainId())
                 .defaultUserSettings(translateUserSettings(model.getDefaultUserSettings()))
+                .defaultSpaceSettings(translateDefaultSpaceSettings(model.getDefaultSpaceSettings()))
+                .domainSettingsForUpdate(TranslatorForRequest.translateDomainSettingsForUpdate(model.getDomainSettings()))
+                .appSecurityGroupManagement(model.getAppSecurityGroupManagement())
                 .build();
     }
 
@@ -94,8 +100,24 @@ final class TranslatorForRequest {
                 .executionRole(origin.getExecutionRole())
                 .jupyterServerAppSettings(translateJupyterServerAppSettings(origin.getJupyterServerAppSettings()))
                 .kernelGatewayAppSettings(translateKernelGatewayAppSettings(origin.getKernelGatewayAppSettings()))
+                .rStudioServerProAppSettings(translateRStudioServerProAppSettings(origin.getRStudioServerProAppSettings()))
+                .rSessionAppSettings(translateRSessionAppSettings(origin.getRSessionAppSettings()))
                 .securityGroups(origin.getSecurityGroups())
                 .sharingSettings(translateSharingSettings(origin.getSharingSettings()))
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.DefaultSpaceSettings translateDefaultSpaceSettings(
+            DefaultSpaceSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.DefaultSpaceSettings.builder()
+                .executionRole(origin.getExecutionRole())
+                .jupyterServerAppSettings(translateJupyterServerAppSettings(origin.getJupyterServerAppSettings()))
+                .kernelGatewayAppSettings(translateKernelGatewayAppSettings(origin.getKernelGatewayAppSettings()))
+                .securityGroups(origin.getSecurityGroups())
                 .build();
     }
 
@@ -122,6 +144,30 @@ final class TranslatorForRequest {
                 .build();
     }
 
+    private static software.amazon.awssdk.services.sagemaker.model.RStudioServerProAppSettings translateRStudioServerProAppSettings(
+            RStudioServerProAppSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.RStudioServerProAppSettings.builder()
+                .accessStatus(origin.getAccessStatus())
+                .userGroup(origin.getUserGroup())
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.RSessionAppSettings translateRSessionAppSettings(
+            RSessionAppSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.RSessionAppSettings.builder()
+                .customImages(translateCustomImages(origin.getCustomImages()))
+                .defaultResourceSpec(translateResourceSpec(origin.getDefaultResourceSpec()))
+                .build();
+    }
+
     private static software.amazon.awssdk.services.sagemaker.model.ResourceSpec translateResourceSpec(
             ResourceSpec origin) {
         if (origin == null) {
@@ -132,6 +178,7 @@ final class TranslatorForRequest {
                 .instanceType(origin.getInstanceType())
                 .sageMakerImageArn(origin.getSageMakerImageArn())
                 .sageMakerImageVersionArn(origin.getSageMakerImageVersionArn())
+                .lifecycleConfigArn(origin.getLifecycleConfigArn())
                 .build();
     }
 
@@ -160,6 +207,56 @@ final class TranslatorForRequest {
                 .notebookOutputOption(origin.getNotebookOutputOption())
                 .s3KmsKeyId(origin.getS3KmsKeyId())
                 .s3OutputPath(origin.getS3OutputPath())
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.DomainSettings translateDomainSettings(DomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.DomainSettings.builder()
+                .securityGroupIds(origin.getSecurityGroupIds())
+                .rStudioServerProDomainSettings(TranslatorForRequest.translateRStudioServerProDomainSettings(origin.getRStudioServerProDomainSettings()))
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.RStudioServerProDomainSettings translateRStudioServerProDomainSettings(
+            RStudioServerProDomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.RStudioServerProDomainSettings.builder()
+                .domainExecutionRoleArn(origin.getDomainExecutionRoleArn())
+                .rStudioConnectUrl(origin.getRStudioConnectUrl())
+                .rStudioPackageManagerUrl(origin.getRStudioPackageManagerUrl())
+                .defaultResourceSpec(TranslatorForRequest.translateResourceSpec(origin.getDefaultResourceSpec()))
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.DomainSettingsForUpdate translateDomainSettingsForUpdate(DomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.DomainSettingsForUpdate.builder()
+                .securityGroupIds(origin.getSecurityGroupIds())
+                .rStudioServerProDomainSettingsForUpdate(TranslatorForRequest.translateRStudioServerProDomainSettingsForUpdate(origin.getRStudioServerProDomainSettings()))
+                .build();
+    }
+
+    private static software.amazon.awssdk.services.sagemaker.model.RStudioServerProDomainSettingsForUpdate translateRStudioServerProDomainSettingsForUpdate(
+            RStudioServerProDomainSettings origin) {
+        if (origin == null) {
+            return null;
+        }
+
+        return software.amazon.awssdk.services.sagemaker.model.RStudioServerProDomainSettingsForUpdate.builder()
+                .domainExecutionRoleArn(origin.getDomainExecutionRoleArn())
+                .rStudioConnectUrl(origin.getRStudioConnectUrl())
+                .rStudioPackageManagerUrl(origin.getRStudioPackageManagerUrl())
+                .defaultResourceSpec(TranslatorForRequest.translateResourceSpec(origin.getDefaultResourceSpec()))
                 .build();
     }
 }
