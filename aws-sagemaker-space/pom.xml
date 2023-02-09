@@ -5,9 +5,9 @@
     xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>software.amazon.sagemaker.domain</groupId>
-    <artifactId>aws-sagemaker-domain-handler</artifactId>
-    <name>aws-sagemaker-domain-handler</name>
+    <groupId>software.amazon.sagemaker.space</groupId>
+    <artifactId>aws-sagemaker-space-handler</artifactId>
+    <name>aws-sagemaker-space-handler</name>
     <version>1.0-SNAPSHOT</version>
     <packaging>jar</packaging>
 
@@ -202,7 +202,7 @@
             <resource>
                 <directory>${project.basedir}</directory>
                 <includes>
-                    <include>aws-sagemaker-domain.json</include>
+                    <include>aws-sagemaker-space.json</include>
                 </includes>
             </resource>
         </resources>

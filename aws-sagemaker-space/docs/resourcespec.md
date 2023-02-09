@@ -1,4 +1,4 @@
-# AWS::SageMaker::Domain ResourceSpec
+# AWS::SageMaker::Space ResourceSpec
 
 ## Syntax
 
@@ -10,8 +10,7 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 {
     "<a href="#instancetype" title="InstanceType">InstanceType</a>" : <i>String</i>,
     "<a href="#sagemakerimagearn" title="SageMakerImageArn">SageMakerImageArn</a>" : <i>String</i>,
-    "<a href="#sagemakerimageversionarn" title="SageMakerImageVersionArn">SageMakerImageVersionArn</a>" : <i>String</i>,
-    "<a href="#lifecycleconfigarn" title="LifecycleConfigArn">LifecycleConfigArn</a>" : <i>String</i>
+    "<a href="#sagemakerimageversionarn" title="SageMakerImageVersionArn">SageMakerImageVersionArn</a>" : <i>String</i>
 }
 </pre>
 
@@ -21,7 +20,6 @@ To declare this entity in your AWS CloudFormation template, use the following sy
 <a href="#instancetype" title="InstanceType">InstanceType</a>: <i>String</i>
 <a href="#sagemakerimagearn" title="SageMakerImageArn">SageMakerImageArn</a>: <i>String</i>
 <a href="#sagemakerimageversionarn" title="SageMakerImageVersionArn">SageMakerImageVersionArn</a>: <i>String</i>
-<a href="#lifecycleconfigarn" title="LifecycleConfigArn">LifecycleConfigArn</a>: <i>String</i>
 </pre>
 
 ## Properties
@@ -40,7 +38,7 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### SageMakerImageArn
 
-The Amazon Resource Name (ARN) of the SageMaker image that the image version belongs to.
+The ARN of the SageMaker image that the image version belongs to.
 
 _Required_: No
 
@@ -54,7 +52,7 @@ _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormati
 
 #### SageMakerImageVersionArn
 
-The Amazon Resource Name (ARN) of the image version created on the instance.
+The ARN of the image version created on the instance.
 
 _Required_: No
 
@@ -63,20 +61,6 @@ _Type_: String
 _Maximum_: <code>256</code>
 
 _Pattern_: <code>^arn:aws(-[\w]+)*:sagemaker:.+:[0-9]{12}:image-version/[a-z0-9]([-.]?[a-z0-9])*/[0-9]+$</code>
-
-_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
-
-#### LifecycleConfigArn
-
-The Amazon Resource Name (ARN) of the Lifecycle Configuration to attach to the Resource.
-
-_Required_: No
-
-_Type_: String
-
-_Maximum_: <code>256</code>
-
-_Pattern_: <code>arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:studio-lifecycle-config/.*</code>
 
 _Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
