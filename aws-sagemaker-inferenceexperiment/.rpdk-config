@@ -1,0 +1,19 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::SageMaker::InferenceExperiment",
+    "language": "java",
+    "runtime": "java8",
+    "entrypoint": "software.amazon.sagemaker.inferenceexperiment.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.inferenceexperiment.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "inferenceexperiment"
+        ],
+        "protocolVersion": "2.0.0"
+    },
+    "logProcessorEnabled": "true",
+    "executableEntrypoint": "software.amazon.sagemaker.inferenceexperiment.HandlerWrapperExecutable"
+}
