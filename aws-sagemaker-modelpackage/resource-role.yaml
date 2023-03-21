@@ -1,0 +1,65 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: >
+  This CloudFormation template creates a role assumed by CloudFormation
+  during CRUDL operations to mutate resources on behalf of the customer.
+
+Resources:
+  ExecutionRole:
+    Type: AWS::IAM::Role
+    Properties:
+      MaxSessionDuration: 8400
+      AssumeRolePolicyDocument:
+        Version: '2012-10-17'
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: resources.cloudformation.amazonaws.com
+            Action: sts:AssumeRole
+            Condition:
+              StringEquals:
+                aws:SourceAccount:
+                  Ref: AWS::AccountId
+              StringLike:
+                aws:SourceArn:
+                  Fn::Sub: arn:${AWS::Partition}:cloudformation:${AWS::Region}:${AWS::AccountId}:type/resource/AWS-SageMaker-ModelPackage/*
+      Path: "/"
+      Policies:
+        - PolicyName: ResourceTypePolicy
+          PolicyDocument:
+            Version: '2012-10-17'
+            Statement:
+              - Effect: Allow
+                Action:
+                - "ecr:BatchGetImage"
+                - "ecr:DescribeImageScanFindings"
+                - "ecr:DescribeImages"
+                - "ecr:StartImageScan"
+                - "s3:GetObject"
+                - "sagemaker:AddTags"
+                - "sagemaker:CreateModel"
+                - "sagemaker:CreateModelPackage"
+                - "sagemaker:CreateTrainingJob"
+                - "sagemaker:CreateTransformJob"
+                - "sagemaker:DeleteModelPackage"
+                - "sagemaker:DeleteTags"
+                - "sagemaker:DescribeModelPackage"
+                - "sagemaker:DescribeTransformJob"
+                - "sagemaker:ListModelPackages"
+                - "sagemaker:ListTags"
+                - "sagemaker:UpdateModelPackage"
+                Resource: "*"
+              - Effect: Allow
+                Action:
+                - "iam:PassRole"
+                Resource: !Sub "arn:${AWS::Partition}:iam::*:role/*"
+                Condition:
+                  StringEquals:
+                    iam:PassedToService: 
+                    - "sagemaker.amazonaws.com"
+                    - "lambda.amazonaws.com"
+                    - "cloudformation.amazonaws.com"
+
+Outputs:
+  ExecutionRoleArn:
+    Value:
+      Fn::GetAtt: ExecutionRole.Arn
