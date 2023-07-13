@@ -1,8 +1,8 @@
 package software.amazon.sagemaker.pipeline;
 
-import com.amazonaws.util.StringUtils;
 import software.amazon.awssdk.services.sagemaker.model.DescribePipelineResponse;
 import software.amazon.awssdk.services.sagemaker.model.ListPipelinesResponse;
+import software.amazon.awssdk.services.sagemaker.model.ListTagsResponse;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -13,20 +13,21 @@ public class TranslatorForResponse {
 
     /**
      * Translates resource object from sdk into a resource model
-     * @param awsResponse the aws service describe resource response
+     * @param describePipelineResponse the aws service describe resource response
      * @return model resource model
      */
-    static ResourceModel translateFromReadResponse(final DescribePipelineResponse awsResponse) {
+    static ResourceModel translateFromReadResponse(final DescribePipelineResponse describePipelineResponse) {
         return ResourceModel.builder()
-                .pipelineName(awsResponse.pipelineName())
+                .pipelineName(describePipelineResponse.pipelineName())
                 .pipelineDefinition(
                         PipelineDefinition.builder()
-                                .pipelineDefinitionBody(awsResponse.pipelineDefinition())
+                                .pipelineDefinitionBody(describePipelineResponse.pipelineDefinition())
                                 .build()
                 )
-                .pipelineDescription(awsResponse.pipelineDescription())
-                .pipelineDisplayName(awsResponse.pipelineDisplayName())
-                .roleArn(awsResponse.roleArn())
+                .pipelineDescription(describePipelineResponse.pipelineDescription())
+                .pipelineDisplayName(describePipelineResponse.pipelineDisplayName())
+                .roleArn(describePipelineResponse.roleArn())
+                .parallelismConfiguration(convertParallelismConfiguration(describePipelineResponse.parallelismConfiguration()))
                 .build();
     }
 
@@ -44,5 +45,21 @@ public class TranslatorForResponse {
                         .roleArn(summary.roleArn())
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    /**
+     * Converter to create and return ParallelismConfiguration for the resource model
+     * @param parallelismConfiguration from the aws service describe resource response
+     *
+     * @return ParallelismConfiguration for resource model
+     */
+    private static ParallelismConfiguration convertParallelismConfiguration(
+            software.amazon.awssdk.services.sagemaker.model.ParallelismConfiguration parallelismConfiguration) {
+        if(parallelismConfiguration == null) {
+            return null;
+        }
+        return ParallelismConfiguration.builder()
+                .maxParallelExecutionSteps(parallelismConfiguration.maxParallelExecutionSteps())
+                .build();
     }
 }
