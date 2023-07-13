@@ -11,8 +11,12 @@ import software.amazon.awssdk.awscore.exception.AwsServiceException;
 import software.amazon.awssdk.services.sagemaker.SageMakerClient;
 import software.amazon.awssdk.services.sagemaker.model.DescribePipelineRequest;
 import software.amazon.awssdk.services.sagemaker.model.DescribePipelineResponse;
+import software.amazon.awssdk.services.sagemaker.model.ListTagsRequest;
+import software.amazon.awssdk.services.sagemaker.model.ListTagsResponse;
+import software.amazon.awssdk.services.sagemaker.model.ParallelismConfiguration;
 import software.amazon.awssdk.services.sagemaker.model.ResourceNotFoundException;
 import software.amazon.awssdk.services.sagemaker.model.SageMakerException;
+import software.amazon.awssdk.services.sagemaker.model.Tag;
 import software.amazon.cloudformation.exceptions.CfnNotFoundException;
 import software.amazon.cloudformation.exceptions.CfnServiceInternalErrorException;
 import software.amazon.cloudformation.proxy.AmazonWebServicesClientProxy;
@@ -24,6 +28,7 @@ import software.amazon.cloudformation.proxy.ResourceHandlerRequest;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -35,7 +40,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class ReadHandlerTest extends AbstractTestBase {
 
-    private final ResourceModel requestModel = getResourceModel();
+    private final ResourceModel requestModel = getResourceModel(TEST_CFN_MODEL_TAGS_K1_V1);
+    private ParallelismConfiguration parallelismConfiguration;
 
     @Mock
     private AmazonWebServicesClientProxy proxy;
@@ -51,6 +57,9 @@ public class ReadHandlerTest extends AbstractTestBase {
         proxy = new AmazonWebServicesClientProxy(logger, MOCK_CREDENTIALS, () -> Duration.ofSeconds(600).toMillis());
         sdkClient = mock(SageMakerClient.class);
         proxyClient = MOCK_PROXY(proxy, sdkClient);
+        parallelismConfiguration = ParallelismConfiguration.builder()
+                .maxParallelExecutionSteps(2)
+                .build();
     }
 
     @Test
@@ -64,10 +73,17 @@ public class ReadHandlerTest extends AbstractTestBase {
                         .roleArn(TEST_ROLE_ARN)
                         .pipelineDisplayName(TEST_PIPELINE_DISPLAY_NAME)
                         .creationTime(Instant.now())
+                        .parallelismConfiguration(parallelismConfiguration)
                         .build();
+
+        final ListTagsResponse listTagsResponse = ListTagsResponse.builder()
+                .tags(Tag.builder().key("key").value("value").build())
+                .build();
 
         when(proxyClient.client().describePipeline(any(DescribePipelineRequest.class)))
                 .thenReturn(describePipelineResponse);
+        when(proxyClient.client().listTags(any(ListTagsRequest.class)))
+                .thenReturn(listTagsResponse);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
                 .desiredResourceState(requestModel)
@@ -81,6 +97,9 @@ public class ReadHandlerTest extends AbstractTestBase {
                 .pipelineDescription(TEST_PIPELINE_DESCRIPTION)
                 .roleArn(TEST_ROLE_ARN)
                 .pipelineDisplayName(TEST_PIPELINE_DISPLAY_NAME)
+                .parallelismConfiguration(software.amazon.sagemaker.pipeline.ParallelismConfiguration.builder()
+                        .maxParallelExecutionSteps(2).build())
+                .tags(Collections.singletonList(new software.amazon.sagemaker.pipeline.Tag("value", "key")))
                 .build();
 
         assertThat(response).isNotNull();
@@ -92,7 +111,7 @@ public class ReadHandlerTest extends AbstractTestBase {
     }
 
     @Test
-    public void testReadHandler_ServiceInternalException() {
+    public void testReadHandler_ServiceInternalException_describePipeline() {
         final AwsServiceException serviceInternalException = SageMakerException.builder()
                 .awsErrorDetails(AwsErrorDetails.builder()
                         .errorMessage(TEST_ERROR_MESSAGE)
@@ -101,7 +120,7 @@ public class ReadHandlerTest extends AbstractTestBase {
                 .statusCode(500)
                 .build();
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         when(proxyClient.client().describePipeline(any(DescribePipelineRequest.class)))
@@ -114,12 +133,48 @@ public class ReadHandlerTest extends AbstractTestBase {
     }
 
     @Test
-    public void testReadHandler_ResourceNotFoundException() {
+    public void testReadHandler_ServiceInternalException_listTags() {
+        final DescribePipelineResponse describePipelineResponse =
+                DescribePipelineResponse.builder()
+                        .pipelineArn(TEST_PIPELINE_ARN)
+                        .pipelineName(TEST_PIPELINE_NAME)
+                        .pipelineDefinition(TEST_PIPELINE_DEFINITION)
+                        .pipelineDescription(TEST_PIPELINE_DESCRIPTION)
+                        .roleArn(TEST_ROLE_ARN)
+                        .pipelineDisplayName(TEST_PIPELINE_DISPLAY_NAME)
+                        .creationTime(Instant.now())
+                        .parallelismConfiguration(parallelismConfiguration)
+                        .build();
+
+        final AwsServiceException serviceInternalException = SageMakerException.builder()
+                .awsErrorDetails(AwsErrorDetails.builder()
+                        .errorMessage(TEST_ERROR_MESSAGE)
+                        .errorCode("InternalError")
+                        .build())
+                .statusCode(500)
+                .build();
+        final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
+                .desiredResourceState(requestModel)
+                .build();
+
+        when(proxyClient.client().describePipeline(any(DescribePipelineRequest.class)))
+                .thenReturn(describePipelineResponse);
+        when(proxyClient.client().listTags(any(ListTagsRequest.class)))
+                .thenThrow(serviceInternalException);
+
+        Exception exception = assertThrows(CfnServiceInternalErrorException.class, () -> invokeHandleRequest(request));
+
+        assertThat(exception.getMessage()).isEqualTo(String.format(HandlerErrorCode.ServiceInternalError.getMessage(),
+                serviceInternalException.awsErrorDetails().errorMessage()));
+    }
+
+    @Test
+    public void testReadHandler_ResourceNotFoundException_describePipeline() {
         when(proxyClient.client().describePipeline(any(DescribePipelineRequest.class)))
                 .thenThrow(ResourceNotFoundException.class);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         Exception exception = assertThrows(CfnNotFoundException.class, () -> invokeHandleRequest(request));

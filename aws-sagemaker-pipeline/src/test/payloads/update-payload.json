@@ -1,0 +1,39 @@
+{
+  "desiredResourceState": {
+    "PipelineDefinition" : {
+      "PipelineDefinitionBody" : "{\"Version\":\"2020-12-01\",\"Metadata\":{},\"Parameters\":[{\"Name\":\"InputDataSource\",\"DefaultValue\":\"\"},{\"Name\":\"InstanceCount\",\"Type\":\"Integer\",\"DefaultValue\":1}],\"Steps\":[{\"Name\":\"Training1\",\"Type\":\"Training\",\"Arguments\":{\"InputDataConfig\":[{\"DataSource\":{\"S3DataSource\":{\"S3Uri\":{\"Get\":\"Parameters.InputDataSource\"}}}}],\"OutputDataConfig\":{\"S3OutputPath\":\"s3://sagemaker-us-east-2-789267064511/\"},\"ResourceConfig\":{\"InstanceType\":\"ml.m5.large\",\"InstanceCount\":{\"Get\":\"Parameters.InstanceCount\"},\"VolumeSizeInGB\":1024}}}]}"
+    },
+    "PipelineDescription" : "PipelineDescription",
+    "PipelineDisplayName" : "PipelineDisplayName",
+    "PipelineName" : "PipelineName",
+    "RoleArn": "arn:aws:iam::111111111111:role/my-test-role",
+    "Tags": [
+      {
+        "Key": "tag1",
+        "Value": "val1-updated"
+      }
+    ],
+    "ParallelismConfiguration": {
+      "MaxParallelExecutionSteps": 1
+    }
+  },
+  "previousResourceState": {
+    "PipelineDefinition" : {
+      "PipelineDefinitionBody" : "{\"Version\":\"2020-12-01\",\"Metadata\":{},\"Parameters\":[{\"Name\":\"InputDataSource\",\"DefaultValue\":\"\"},{\"Name\":\"InstanceCount\",\"Type\":\"Integer\",\"DefaultValue\":1}],\"Steps\":[{\"Name\":\"Training1\",\"Type\":\"Training\",\"Arguments\":{\"InputDataConfig\":[{\"DataSource\":{\"S3DataSource\":{\"S3Uri\":{\"Get\":\"Parameters.InputDataSource\"}}}}],\"OutputDataConfig\":{\"S3OutputPath\":\"s3://sagemaker-us-east-2-789267064511/\"},\"ResourceConfig\":{\"InstanceType\":\"ml.m5.large\",\"InstanceCount\":{\"Get\":\"Parameters.InstanceCount\"},\"VolumeSizeInGB\":1024}}}]}"
+    },
+    "PipelineDescription" : "PipelineDescription",
+    "PipelineDisplayName" : "PipelineDisplayName",
+    "PipelineName" : "PipelineName",
+    "RoleArn": "arn:aws:iam::111111111111:role/my-test-role",
+    "Tags": [
+      {
+        "Key": "tag1",
+        "Value": "val1"
+      }
+    ],
+    "ParallelismConfiguration": {
+      "MaxParallelExecutionSteps": 1
+    }
+  },
+  "logicalResourceIdentifier": "test-pipeline-resource"
+}

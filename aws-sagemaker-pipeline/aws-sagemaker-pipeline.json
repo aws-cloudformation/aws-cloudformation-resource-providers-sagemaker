@@ -60,6 +60,18 @@
       "items": {
         "$ref": "#/definitions/Tag"
       }
+    },
+    "ParallelismConfiguration": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "MaxParallelExecutionSteps": {
+          "description": "Maximum parallel execution steps",
+          "type": "integer",
+          "minimum" : 1
+        }
+      },
+      "required": ["MaxParallelExecutionSteps"]
     }
   },
   "definitions": {
@@ -109,12 +121,15 @@
         "iam:PassRole",
         "s3:GetObject",
         "sagemaker:CreatePipeline",
-        "sagemaker:DescribePipeline"
+        "sagemaker:DescribePipeline",
+        "sagemaker:AddTags",
+        "sagemaker:ListTags"
       ]
     },
     "read": {
       "permissions": [
-        "sagemaker:DescribePipeline"
+        "sagemaker:DescribePipeline",
+        "sagemaker:ListTags"
       ]
     },
     "update": {
@@ -122,7 +137,10 @@
         "iam:PassRole",
         "s3:GetObject",
         "sagemaker:UpdatePipeline",
-        "sagemaker:DescribePipeline"
+        "sagemaker:DescribePipeline",
+        "sagemaker:AddTags",
+        "sagemaker:DeleteTags",
+        "sagemaker:ListTags"
       ]
     },
     "delete": {

@@ -35,6 +35,7 @@ import static org.mockito.Mockito.when;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class ListHandlerTest extends AbstractTestBase {
+    private final ResourceModel requestModel = getResourceModel(TEST_CFN_MODEL_TAGS_K1_V1);
 
     public static final String TEST_TOKEN = "test-token";
 
@@ -84,7 +85,7 @@ public class ListHandlerTest extends AbstractTestBase {
         expectedModels.add(expectedResourceModel);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
         final ProgressEvent<ResourceModel, CallbackContext> response = invokeHandleRequest(request);
 
@@ -110,7 +111,7 @@ public class ListHandlerTest extends AbstractTestBase {
                 .thenReturn(listPipelinesResponse);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
         final ProgressEvent<ResourceModel, CallbackContext> response = invokeHandleRequest(request);
 
@@ -134,7 +135,7 @@ public class ListHandlerTest extends AbstractTestBase {
                 .statusCode(500)
                 .build();
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         when(proxyClient.client().listPipelines(any(ListPipelinesRequest.class)))
