@@ -34,7 +34,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>63</code>
+_Maximum Length_: <code>63</code>
 
 _Pattern_: <code>^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</code>
 
@@ -48,7 +48,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>63</code>
+_Maximum Length_: <code>63</code>
 
 _Pattern_: <code>^[a-zA-Z0-9]([-.]?[a-zA-Z0-9]){0,62}$</code>
 

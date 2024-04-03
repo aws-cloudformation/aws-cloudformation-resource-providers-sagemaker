@@ -43,9 +43,9 @@ _Required_: No
 
 _Type_: String
 
-_Minimum_: <code>20</code>
+_Minimum Length_: <code>20</code>
 
-_Maximum_: <code>2048</code>
+_Maximum Length_: <code>2048</code>
 
 _Pattern_: <code>^arn:aws[a-z\-]*:iam::\d{12}:role/?[a-zA-Z_0-9+=,.@\-_/]+$</code>
 

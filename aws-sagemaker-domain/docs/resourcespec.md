@@ -46,7 +46,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>256</code>
+_Maximum Length_: <code>256</code>
 
 _Pattern_: <code>^arn:aws(-[\w]+)*:sagemaker:.+:[0-9]{12}:image/[a-z0-9]([-.]?[a-z0-9])*$</code>
 
@@ -60,7 +60,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>256</code>
+_Maximum Length_: <code>256</code>
 
 _Pattern_: <code>^arn:aws(-[\w]+)*:sagemaker:.+:[0-9]{12}:image-version/[a-z0-9]([-.]?[a-z0-9])*/[0-9]+$</code>
 
@@ -74,7 +74,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>256</code>
+_Maximum Length_: <code>256</code>
 
 _Pattern_: <code>arn:aws[a-z\-]*:sagemaker:[a-z0-9\-]*:[0-9]{12}:studio-lifecycle-config/.*</code>
 
