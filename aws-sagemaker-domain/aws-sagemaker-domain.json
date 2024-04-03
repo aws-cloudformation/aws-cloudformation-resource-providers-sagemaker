@@ -492,6 +492,13 @@
         "SubnetIds",
         "VpcId"
     ],
+    "tagging": {
+        "taggable": true,
+        "tagOnCreate": true,
+        "tagUpdatable": true,
+        "cloudFormationSystemTags": true,
+        "tagProperty": "/properties/Tags"
+    },
     "createOnlyProperties": [
         "/properties/AppNetworkAccessType",
         "/properties/AuthMode",
@@ -499,8 +506,7 @@
         "/properties/DomainSettings/RStudioServerProDomainSettings/DefaultResourceSpec",
         "/properties/KmsKeyId",
         "/properties/SubnetIds",
-        "/properties/VpcId",
-        "/properties/Tags"
+        "/properties/VpcId"
     ],
     "writeOnlyProperties": [
         "/properties/Tags"
@@ -524,6 +530,7 @@
                 "sagemaker:DescribeDomain",
                 "sagemaker:DescribeImage",
                 "sagemaker:DescribeImageVersion",
+				"sagemaker:ListTags",
                 "iam:CreateServiceLinkedRole",
                 "iam:PassRole",
                 "efs:CreateFileSystem",
@@ -540,8 +547,10 @@
         },
         "update": {
             "permissions": [
+                "sagemaker:AddTags",
                 "sagemaker:CreateApp",
                 "sagemaker:UpdateDomain",
+                "sagemaker:DeleteTags",
                 "sagemaker:DescribeDomain",
                 "sagemaker:DescribeImage",
                 "sagemaker:DescribeImageVersion",
