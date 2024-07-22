@@ -22,6 +22,7 @@ This repository contains code to manage the following SageMaker resource provide
 - AWS::SageMaker::AppImageConfig
 - AWS::SageMaker::Space
 - AWS::SageMaker::InferenceExperiment
+- AWS::SageMaker::MlflowTrackingServer
 
 
 ## Security
