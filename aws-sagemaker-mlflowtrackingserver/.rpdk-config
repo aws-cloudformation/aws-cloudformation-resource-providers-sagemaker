@@ -1,0 +1,19 @@
+{
+    "artifact_type": "RESOURCE",
+    "typeName": "AWS::SageMaker::MlflowTrackingServer",
+    "language": "java",
+    "runtime": "java17",
+    "entrypoint": "software.amazon.sagemaker.mlflowtrackingserver.HandlerWrapper::handleRequest",
+    "testEntrypoint": "software.amazon.sagemaker.mlflowtrackingserver.HandlerWrapper::testEntrypoint",
+    "settings": {
+        "namespace": [
+            "software",
+            "amazon",
+            "sagemaker",
+            "mlflowtrackingserver"
+        ],
+        "protocolVersion": "2.0.0"
+    },
+    "logProcessorEnabled": "true",
+    "executableEntrypoint": "software.amazon.sagemaker.mlflowtrackingserver.HandlerWrapperExecutable"
+}
