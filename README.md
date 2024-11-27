@@ -9,6 +9,7 @@ This repository contains code to manage the following SageMaker resource provide
 - AWS::SageMaker::FeatureGroup
 - AWS::SageMaker::Project
 - AWS::SageMaker::ModelPackageGroup
+- AWS::SageMaker::ModelPackage
 - AWS::SageMaker::ModelExplainabilityJobDefinition
 - AWS::SageMaker::ModelBiasJobDefinition
 - AWS::SageMaker::DataQualityJobDefinition
