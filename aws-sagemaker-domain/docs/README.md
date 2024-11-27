@@ -101,7 +101,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>63</code>
+_Maximum Length_: <code>63</code>
 
 _Pattern_: <code>^[a-zA-Z0-9](-*[a-zA-Z0-9]){0,62}</code>
 
@@ -115,7 +115,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>2048</code>
+_Maximum Length_: <code>2048</code>
 
 _Pattern_: <code>.*</code>
 
@@ -139,7 +139,7 @@ _Required_: No
 
 _Type_: List of <a href="tag.md">Tag</a>
 
-_Update requires_: [Replacement](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-replacement)
+_Update requires_: [No interruption](https://docs.aws.amazon.com/AWSCloudFormation/latest/UserGuide/using-cfn-updating-stacks-update-behaviors.html#update-no-interrupt)
 
 #### VpcId
 
@@ -149,7 +149,7 @@ _Required_: Yes
 
 _Type_: String
 
-_Maximum_: <code>32</code>
+_Maximum Length_: <code>32</code>
 
 _Pattern_: <code>[-0-9a-zA-Z]+</code>
 

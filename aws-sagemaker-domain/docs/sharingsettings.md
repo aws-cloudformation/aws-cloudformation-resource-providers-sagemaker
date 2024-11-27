@@ -46,7 +46,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>2048</code>
+_Maximum Length_: <code>2048</code>
 
 _Pattern_: <code>.*</code>
 
@@ -60,7 +60,7 @@ _Required_: No
 
 _Type_: String
 
-_Maximum_: <code>1024</code>
+_Maximum Length_: <code>1024</code>
 
 _Pattern_: <code>^(https|s3)://([^/]+)/?(.*)$</code>
 
