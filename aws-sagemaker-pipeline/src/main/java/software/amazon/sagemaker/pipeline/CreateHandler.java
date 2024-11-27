@@ -32,10 +32,6 @@ public class CreateHandler extends BaseHandlerStd {
                     proxy,
                     logger
             );
-            model.setPipelineDefinition(PipelineDefinition.builder()
-                    .pipelineDefinitionBody(pipelineDefinition)
-                    .build()
-            );
         }
 
         return ProgressEvent.progress(model, callbackContext)

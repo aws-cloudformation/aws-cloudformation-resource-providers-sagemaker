@@ -35,6 +35,7 @@ import static org.mockito.Mockito.when;
 @Slf4j
 @ExtendWith(MockitoExtension.class)
 public class DeleteHandlerTest extends AbstractTestBase {
+    private final ResourceModel requestModel = getResourceModel(TEST_CFN_MODEL_TAGS_K1_V1);
     @Mock
     private AmazonWebServicesClientProxy proxy;
 
@@ -58,7 +59,7 @@ public class DeleteHandlerTest extends AbstractTestBase {
                 .build();
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         when(proxyClient.client().deletePipeline(any(DeletePipelineRequest.class)))
@@ -84,7 +85,7 @@ public class DeleteHandlerTest extends AbstractTestBase {
                 .statusCode(500)
                 .build();
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         when(proxyClient.client().deletePipeline(any(DeletePipelineRequest.class)))
@@ -102,7 +103,7 @@ public class DeleteHandlerTest extends AbstractTestBase {
                 .thenThrow(ResourceNotFoundException.class);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
-                .desiredResourceState(getResourceModel())
+                .desiredResourceState(requestModel)
                 .build();
 
         Exception exception = assertThrows(CfnNotFoundException.class, () -> invokeHandleRequest(request));

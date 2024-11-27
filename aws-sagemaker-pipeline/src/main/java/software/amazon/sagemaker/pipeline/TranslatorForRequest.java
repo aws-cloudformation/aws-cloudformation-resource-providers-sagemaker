@@ -6,6 +6,8 @@ import software.amazon.awssdk.services.sagemaker.model.DescribePipelineRequest;
 import software.amazon.awssdk.services.sagemaker.model.ListPipelinesRequest;
 import software.amazon.awssdk.services.sagemaker.model.Tag;
 import software.amazon.awssdk.services.sagemaker.model.UpdatePipelineRequest;
+import software.amazon.awssdk.services.sagemaker.model.PipelineDefinitionS3Location;
+import software.amazon.awssdk.services.sagemaker.model.ParallelismConfiguration;
 
 import java.util.stream.Collectors;
 
@@ -37,7 +39,11 @@ final class TranslatorForRequest {
                                 .value(t.getValue())
                                 .build())
                         .collect(Collectors.toList())
-                ).build();
+                )
+                .pipelineDefinitionS3Location(convertPipelineDefinitionS3Location(
+                        model.getPipelineDefinition().getPipelineDefinitionS3Location()))
+                .parallelismConfiguration(convertParallelismConfiguration(model.getParallelismConfiguration()))
+                .build();
     }
 
     /**
@@ -70,6 +76,9 @@ final class TranslatorForRequest {
                 .pipelineDescription(model.getPipelineDescription())
                 .pipelineDefinition(model.getPipelineDefinition().getPipelineDefinitionBody())
                 .roleArn(model.getRoleArn())
+                .pipelineDefinitionS3Location(convertPipelineDefinitionS3Location(
+                        model.getPipelineDefinition().getPipelineDefinitionS3Location()))
+                .parallelismConfiguration(convertParallelismConfiguration(model.getParallelismConfiguration()))
                 .build();
     }
 
@@ -80,6 +89,37 @@ final class TranslatorForRequest {
      */
     static ListPipelinesRequest translateToListRequest(final String nextToken) {
         return ListPipelinesRequest.builder().nextToken(nextToken).build();
+    }
+
+    /**
+     * Converter to create and return PipelineDefinitionS3Location
+     * @param s3Location from the resource model
+     * @return PipelineDefinitionS3Location for createPipelineRequest and updatePipelineRequest
+     */
+    private static PipelineDefinitionS3Location convertPipelineDefinitionS3Location(S3Location s3Location) {
+        if(s3Location == null) {
+            return null;
+        }
+        return PipelineDefinitionS3Location.builder()
+                .bucket(s3Location.getBucket())
+                .versionId(s3Location.getVersion())
+                .objectKey(s3Location.getKey())
+                .build();
+    }
+
+    /**
+     * Converter to create and return ParallelismConfiguration
+     * @param parallelismConfiguration from the resource model
+     * @return ParallelismConfiguration for createPipelineRequest and updatePipelineRequest
+     */
+    private static ParallelismConfiguration convertParallelismConfiguration(
+            software.amazon.sagemaker.pipeline.ParallelismConfiguration parallelismConfiguration) {
+        if(parallelismConfiguration == null) {
+            return null;
+        }
+        return ParallelismConfiguration.builder()
+                .maxParallelExecutionSteps(parallelismConfiguration.getMaxParallelExecutionSteps())
+                .build();
     }
 
 }

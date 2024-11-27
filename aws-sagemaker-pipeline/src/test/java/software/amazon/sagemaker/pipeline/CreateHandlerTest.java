@@ -13,9 +13,13 @@ import software.amazon.awssdk.services.sagemaker.model.CreatePipelineRequest;
 import software.amazon.awssdk.services.sagemaker.model.CreatePipelineResponse;
 import software.amazon.awssdk.services.sagemaker.model.DescribePipelineRequest;
 import software.amazon.awssdk.services.sagemaker.model.DescribePipelineResponse;
+import software.amazon.awssdk.services.sagemaker.model.ListTagsRequest;
+import software.amazon.awssdk.services.sagemaker.model.ListTagsResponse;
 import software.amazon.awssdk.services.sagemaker.model.ResourceInUseException;
 import software.amazon.awssdk.services.sagemaker.model.ResourceLimitExceededException;
 import software.amazon.awssdk.services.sagemaker.model.SageMakerException;
+import software.amazon.awssdk.services.sagemaker.model.ParallelismConfiguration;
+import software.amazon.awssdk.services.sagemaker.model.Tag;
 import software.amazon.cloudformation.Action;
 import software.amazon.cloudformation.exceptions.CfnGeneralServiceException;
 import software.amazon.cloudformation.exceptions.CfnInvalidRequestException;
@@ -31,6 +35,7 @@ import software.amazon.cloudformation.proxy.ResourceHandlerRequest;
 
 import java.time.Duration;
 import java.time.Instant;
+import java.util.Collections;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.junit.jupiter.api.Assertions.assertThrows;
@@ -42,7 +47,8 @@ import static org.mockito.Mockito.when;
 @ExtendWith(MockitoExtension.class)
 public class CreateHandlerTest extends AbstractTestBase {
 
-    private final ResourceModel requestModel = getResourceModel();
+    private final ResourceModel requestModel = getResourceModel(TEST_CFN_MODEL_TAGS_K1_V1);
+    private ParallelismConfiguration parallelismConfiguration;
 
     @Mock
     private AmazonWebServicesClientProxy proxy;
@@ -58,6 +64,9 @@ public class CreateHandlerTest extends AbstractTestBase {
         proxy = new AmazonWebServicesClientProxy(logger, MOCK_CREDENTIALS, () -> Duration.ofSeconds(600).toMillis());
         sdkClient = mock(SageMakerClient.class);
         proxyClient = MOCK_PROXY(proxy, sdkClient);
+        parallelismConfiguration = ParallelismConfiguration.builder()
+                .maxParallelExecutionSteps(2)
+                .build();
     }
 
     @Test
@@ -71,16 +80,23 @@ public class CreateHandlerTest extends AbstractTestBase {
                         .roleArn(TEST_ROLE_ARN)
                         .pipelineDisplayName(TEST_PIPELINE_DISPLAY_NAME)
                         .creationTime(Instant.now())
+                        .parallelismConfiguration(parallelismConfiguration)
                         .build();
 
         final CreatePipelineResponse createPipelineResponse = CreatePipelineResponse.builder()
                 .pipelineArn(TEST_PIPELINE_ARN)
                 .build();
 
+        final ListTagsResponse listTagsResponse = ListTagsResponse.builder()
+                .tags(Tag.builder().key("key").value("value").build())
+                .build();
+
         when(proxyClient.client().describePipeline(any(DescribePipelineRequest.class)))
                 .thenReturn(describePipelineResponse);
         when(proxyClient.client().createPipeline(any(CreatePipelineRequest.class)))
                 .thenReturn(createPipelineResponse);
+        when(proxyClient.client().listTags(any(ListTagsRequest.class)))
+                .thenReturn(listTagsResponse);
 
         final ResourceHandlerRequest<ResourceModel> request = ResourceHandlerRequest.<ResourceModel>builder()
                 .desiredResourceState(requestModel)
@@ -94,8 +110,10 @@ public class CreateHandlerTest extends AbstractTestBase {
                 .pipelineDescription(TEST_PIPELINE_DESCRIPTION)
                 .roleArn(TEST_ROLE_ARN)
                 .pipelineDisplayName(TEST_PIPELINE_DISPLAY_NAME)
+                .parallelismConfiguration(software.amazon.sagemaker.pipeline.ParallelismConfiguration.builder()
+                        .maxParallelExecutionSteps(2).build())
+                .tags(Collections.singletonList(new software.amazon.sagemaker.pipeline.Tag("value", "key")))
                 .build();
-
         assertThat(response).isNotNull();
         assertThat(response.getStatus()).isEqualTo(OperationStatus.SUCCESS);
         assertThat(response.getCallbackDelaySeconds()).isEqualTo(0);
